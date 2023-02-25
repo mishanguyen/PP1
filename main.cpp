@@ -4,9 +4,10 @@ Then we dequeue() when we give out the order. We can print smt like "Thank you, 
 
 #include <iostream>
 #include "classLine.h"
+#include "classOrder.h"
 int main() {
     
-    
+
     // char choice;
     // while (choice != 'q') {
     //     cout << "Welcome to Pasta&Pizza #1!" << endl;
@@ -30,5 +31,7 @@ int main() {
     //     }
 
     // }
+    Line<PizzaOrder>;
+    
     return EXIT_SUCCESS;
 }

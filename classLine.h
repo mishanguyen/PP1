@@ -33,6 +33,7 @@ class Line {
         bool empty() const { return (front == nullptr); }
         void enqueue();
         void dequeue();
+        void print();
 };   
 
 template <typename E>
@@ -63,5 +64,10 @@ void Line<E>::dequeue() {
         rear->next = front;
         delete temp;
     }
+}
+
+template <typename E>
+void Line<E>::print() {
+
 }
 #endif

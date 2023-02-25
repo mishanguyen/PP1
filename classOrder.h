@@ -9,8 +9,8 @@ A customer can only order either pizza or pasta. */
 #include <iostream>
 #include <cstdlib>
 #include <string>
-enum PizzaType { Margherita, Pepperoni, Cheese, Vegetarian, BBQChicken };
-enum CrustType { thin, thick, stuffed };
+enum PizzaType { Margherita = 12, Pepperoni = 13, Cheese = 14, Vegetarian = 13, BBQChicken = 16 };
+enum CrustType { thin = 1, thick = 0, stuffed = 1};
 using namespace std;
 
 // Parent abstract class Order
@@ -21,7 +21,15 @@ class Order {
         string drink;
         double total;
     public:
-        Order() {} // default constructor
+        Order() {
+            cout << "Enter your name: ";
+            getline(cin, name);
+            cout << "Enter your phone number: ";
+            getline(cin, phone);
+            cout << "Nice to meet you, " << name << "!" << endl;
+            cout << "What drink would you like? Enter drink or \"none\": ";
+            getline(cin, drink);
+        } // default constructor
         Order(string name, string phone, string drink, double total) // full constructor
             : name(name), phone(phone), drink(drink), total(total) {}
         virtual void printOrder() = 0; // pure virtual function to print order details

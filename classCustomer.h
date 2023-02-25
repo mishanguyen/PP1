@@ -11,7 +11,8 @@ class Customer {
         E order;
         Customer<E>* next;
     public:
-        Customer() {}
+        Customer() {
+        }
         Customer(E o, Customer<E>* n) : order(o), next(n) {};
     friend class Line<E>;
 };
