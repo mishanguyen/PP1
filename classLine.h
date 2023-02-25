@@ -32,6 +32,7 @@ class Line {
         }
         bool empty() const { return (front == nullptr); }
         void enqueue();
+        void dequeue();
 };   
 
 template <typename E>
@@ -48,4 +49,19 @@ void Line<E>::enqueue() {
     rear->next = front;
 }
 
+template <typename E>
+void Line<E>::dequeue() {
+    if (empty()) {
+        cout << "Line has no customers!" << endl;
+    } else if (front == rear) {
+        delete front;
+        front = nullptr;
+        rear = nullptr;
+    } else {
+        Customer<E>* temp = front;
+        front = front->next;
+        rear->next = front;
+        delete temp;
+    }
+}
 #endif
