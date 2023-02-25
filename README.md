@@ -5,11 +5,13 @@
 
 #### Project files:
 
-1. classCustomer.h contains class definition for a node of the list
+1. "classCustomer.h" contains class definition for a node of the list.
 
-2. classOrder.h contains class definitions for two types of orders: Pizza or Pasta, and an abstract parent class Order.
+2. "classOrder.h" contains class definitions for two types of orders: Pizza or Pasta, and an abstract parent class Order.
 
-3. class Line.h contains the implementation of the queue, which includes dequeue(), enqueue(), size(), front(), empty().
+3. "class Line.h" contains the implementation of the queue, which includes dequeue(), enqueue(), size(), front(), empty().
+
+4. "main.cpp" provides the menu options for the user.
 
 The user has to be one of the two roles: manager or customer.
 
