@@ -1,7 +1,6 @@
 /* Queue implementation using Customers as nodes of the circularly linked list */
 /* Here we don't input the name */
 /* TODO: 
-- dequeue(): give out the order to the current customer
 - front(): get info about the current customer
 - size(): to see how many people are in the line 
 */
@@ -16,8 +15,8 @@ using namespace std;
 template <typename E>
 class Line {
     private:
-        Node<E>* front;
-        Node<E>* rear;
+        Customer<E>* front;
+        Customer<E>* rear;
     public:
         Line() { 
             front = nullptr; 
@@ -30,15 +29,24 @@ class Line {
             delete front;
             delete rear;
         }
+        Line& operator=(const Line& copy) {
+            if (this == &copy) {
+                return *this;
+            }
+            front = copy.front;
+            rear = copy.rear;
+            return *this;
+        }
         bool empty() const { return (front == nullptr); }
         void enqueue();
         void dequeue();
         void print();
+        void clear();
 };   
 
 template <typename E>
 void Line<E>::enqueue() {
-    Customer<E>* newCustomer = new Customer();
+    Customer<E>* newCustomer = new Customer<E>();
     if (empty()) {
         front = newCustomer;
         rear = newCustomer;
@@ -68,6 +76,30 @@ void Line<E>::dequeue() {
 
 template <typename E>
 void Line<E>::print() {
+    Customer<E>* cur = front;
+    if (cur == rear) {
+        cout << cur->order.getName() << endl;
+        return;
+    }
+    while (cur != rear) {
+        cout << cur->order.getName() << endl;
+        cur = cur->next;
+    }
+}
 
+template <typename E>
+void Line<E>::clear() {
+    if (empty()) {
+        return;
+    }
+    else {
+        Customer<E>* cur = front;
+        while (cur != rear) {
+            Customer<E>* temp = cur;
+            cur = cur->next;
+        }
+        front = nullptr;
+        rear = nullptr;
+    }
 }
 #endif
