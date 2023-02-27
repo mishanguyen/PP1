@@ -22,6 +22,7 @@ class Order {
         double total;
     public:
         Order() {
+            cin.ignore();
             cout << "Enter your name: ";
             getline(cin, name);
             cout << "Enter your phone number: ";
@@ -30,13 +31,15 @@ class Order {
             cout << "What drink would you like? Enter drink or \"none\": ";
             getline(cin, drink);
         } // default constructor
-        Order(string name, string phone, string drink, double total) // full constructor
-            : name(name), phone(phone), drink(drink), total(total) {}
+        // Order(string name, string phone, string drink, double total) // full constructor
+        //     : name(name), phone(phone), drink(drink), total(total) {}
         virtual void printOrder() = 0; // pure virtual function to print order details
+        // accessor functions
         double getTotal() const { return total; }
         string getName() const { return name; }
         string getPhone() const { return phone; }
         string getDrink() const { return drink; }
+        // modifier functions
         void setName(const string& newName) { name = newName; }
         void setPhone(const string& newPhone) { phone = newPhone; }
         void setDrink(const string& newDrink) { drink = newDrink; }
@@ -51,9 +54,14 @@ class PizzaOrder : public Order {
         CrustType crust;
         string* toppings;
     public:
-        PizzaOrder() {}
-        PizzaOrder(PizzaType type = Margherita, int size = 0, CrustType crust = thin, string* toppings = nullptr) 
-        : Order(name, phone, drink, total) {};
+        PizzaOrder() : Order() {
+            cout << "Pick one of the following:" << endl;
+            cout << "1. Margherita" << endl;
+            cout << "2. Pepperoni" << endl;
+            cout << "3. Cheese" << endl;
+            cout << "4. Vegeterian" << endl;
+            cout << "5. BBQ Chicken" << endl;
+        }
         PizzaType getType() const { return type; }
         int getSize() const { return size; }
         CrustType getCrust() const { return crust; }
