@@ -64,10 +64,11 @@ int main() {
                 cin >> customerChoice; 
                 switch (customerChoice) {
                     case '1': 
+                        cout << endl;
                         cout << "Let's get your order..." << endl;
                         cout << endl;
                         newLine.enqueue();
-                        
+                        cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
                         break;
