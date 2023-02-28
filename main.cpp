@@ -71,7 +71,9 @@ int main() {
                         cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
+
                         break;
+                        
                 }
             }
         }

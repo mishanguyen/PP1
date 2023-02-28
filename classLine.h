@@ -40,7 +40,7 @@ class Line {
         bool empty() const { return (front == nullptr); }
         void enqueue();
         void dequeue();
-        void print();
+        void getFront();
         void clear();
 };   
 
@@ -51,11 +51,16 @@ void Line<E>::enqueue() {
         front = newCustomer;
         rear = newCustomer;
         rear->next = front;
+        cout << endl;
+        cout << "Here is your order:" << endl;
+        newCustomer->order->printOrder();
         return;
     }
     rear->next = newCustomer;
     rear = newCustomer;
     rear->next = front;
+    cout << "Here is your order:" << endl;
+    newCustomer->order->printOrder();
 }
 
 template <typename E>
@@ -75,16 +80,9 @@ void Line<E>::dequeue() {
 }
 
 template <typename E>
-void Line<E>::print() {
-    Customer<E>* cur = front;
-    if (cur == rear) {
-        cout << cur->order.getName() << endl;
-        return;
-    }
-    while (cur != rear) {
-        cout << cur->order.getName() << endl;
-        cur = cur->next;
-    }
+void Line<E>::getFront() {
+    cout << "Here is the order of the current customer: " << endl;
+    front->order.printOrder();
 }
 
 template <typename E>
