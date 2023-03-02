@@ -6,6 +6,9 @@ Then we dequeue() when we give out the order. We can print smt like "Thank you, 
 #include <type_traits>
 #include "classLine.h"
 #include "classOrder.h"
+
+using namespace std;
+
 int main() {
 
     cout << "**************************" << endl;
@@ -13,8 +16,8 @@ int main() {
     cout << "**************************" << endl;
     cout << endl;
 
-    // Declare type eitrher PizzaOrder or PastaOrder
-    Line<PizzaOrder> newLine;
+    // Declare type either PizzaOrder or PastaOrder
+    Line<PastaOrder> newLine;
 
     // Printing a message depending on the previoius type declaration
     if (is_same<decltype(newLine), Line<PizzaOrder> >::value) {
@@ -47,9 +50,31 @@ int main() {
                 cout << "Enter your choice: ";
                 char managerChoice;
                 cin >> managerChoice;
-                // switch (managerChoice) {
-                //     case '2':  
-                // }
+                switch (managerChoice) {
+                    case '1':  
+                        cout << endl;
+                        cout << "Number of people in line: " << newLine.size() << endl;
+                        cout << endl;
+                        cout << "Done (y/n)?: ";
+                        cin >> done;
+                        break;
+                    case '2':
+                        cout << endl;
+                        cout << "Here is the order of the current customer: " << endl;
+                        newLine.getFront();
+                        cout << endl;
+                        cout << "Done (y/n)?: ";
+                        cin >> done;
+                        break;
+                    case '3':
+                        cout << endl;
+                        cout << "Giving away the order for " << newLine.getFrontName() << "!";
+                        newLine.dequeue();
+                        cout << endl;
+                        cout << "Done (y/n)?: ";
+                        cin >> done;
+                        break;
+                }
             }
         }
         if (role == '2') {
@@ -71,14 +96,20 @@ int main() {
                         cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
-
                         break;
-                        
+                    case '2':
+                        cout << endl;
+                        cout << "Number of people in line: " << newLine.size() << endl;
+                        cout << endl;
+                        cout << "Done (y/n)?: ";
+                        cin >> done;
+                        break;
                 }
             }
         }
         if (role == '3') {
             newLine.clear();
+            cout << "See you soon!" << endl;
             return EXIT_SUCCESS;
         }
     }
