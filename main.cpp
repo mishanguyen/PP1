@@ -27,8 +27,7 @@ int main() {
     }
 
     for (;;) {
-        char role;
-        
+        string role;
         cout << endl;
         cout << "Select your role:" << endl;
         cout << endl;
@@ -36,11 +35,12 @@ int main() {
         cout << "2. Customer" << endl;
         cout << "3. Quit" << endl;
         cout << endl;
-
-        cout << "Enter your choice: ";
+        
+        cout << "Enter your choice (1, 2, or 3): ";
         cin >> role;
-        if (role == '1') {
-            char done;
+
+        if (role == "1") {
+            char done = 'n';
             while (done != 'y') {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
@@ -51,6 +51,16 @@ int main() {
                 cout << "Enter your choice: ";
                 char managerChoice;
                 cin >> managerChoice;
+
+                // if user did not input a character (i.e. string)
+                if (cin.fail() || cin.peek() != '\n') {  // check if input is not a single character
+                    cout << endl;
+                    cout << "Invalid choice. Please try again: " << endl;
+                    cin.clear();  // reset input stream state
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // clear input buffer
+                    continue;
+                }
+
                 switch (managerChoice) {
                     case '1':  
                         cout << endl;
@@ -77,9 +87,8 @@ int main() {
                         break;
                 }
             }
-        }
-        if (role == '2') {
-            char done;
+        } else if (role == "2") {
+            char done = 'n';
             while (done != 'y') {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
@@ -89,6 +98,15 @@ int main() {
                 char customerChoice;
                 cout << "Enter your choice: ";
                 cin >> customerChoice; 
+
+                // if user did not input a character (i.e. string)
+                if (cin.fail() || cin.peek() != '\n') {  // check if input is not a single character
+                    cout << "Invalid choice. Please try again: " << endl;
+                    cin.clear();  // reset input stream state
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');  // clear input buffer
+                    continue;
+                }
+
                 switch (customerChoice) {
                     case '1': 
                         cout << endl;
@@ -108,11 +126,14 @@ int main() {
                         break;
                 }
             }
-        }
-        if (role == '3') {
+        } else if (role == "3") {
             newLine.clear();
             cout << "See you soon!" << endl;
             return EXIT_SUCCESS;
+        } else {
+            cout << endl;
+            cout << "Inavlid choice. Please try again.";
+            cout << endl;
         }
     }
 }
