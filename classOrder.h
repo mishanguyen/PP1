@@ -21,7 +21,7 @@ class Order {
     protected:
         string name;
         string phone;
-        string drink;
+        bool drink;
         double total;
     public:
         Order(); // default constructor
@@ -32,13 +32,85 @@ class Order {
         double getTotal() const { return total; }
         string getName() const { return name; }
         string getPhone() const { return phone; }
-        string getDrink() const { return drink; }
+        bool getDrink() const { return drink; }
         // modifier functions
         void setName(const string& newName) { name = newName; }
         void setPhone(const string& newPhone) { phone = newPhone; }
-        void setDrink(const string& newDrink) { drink = newDrink; }
         void setTotal(int newTotal) { total = newTotal; }
+        // other functions
+        bool phoneValidation(const string& phone);
 };
+// Constructor for Order 
+Order::Order() {
+    cin.ignore();
+    cout << "Enter your name: ";
+    getline(cin, name);
+    cout << "Enter your phone number: ";
+    getline(cin, phone);
+    while (!phoneValidation(phone)) {
+        cout << "Invalid format. Please re-enter your phone: ";
+        getline(cin, phone);
+    }
+    cout << "Nice to meet you, " << name << "!" << endl;
+    cout << "Would you like a fountain drink (y/n)?: ";
+    string choice;
+    getline(cin, choice);
+    if (choice == "y") {
+        drink = 1;
+    } else if (choice == "n") {
+        drink = 0;
+    }
+    while (choice != "y" && choice != "n") {
+        cout << "Invalid choice. Please enter 'y' or 'n': ";
+        cin >> choice;
+        if (choice == "y") {
+        drink = 1;
+        } else if (choice == "n") {
+            drink = 0;
+        }
+    }
+    total = 0;
+}
+
+bool Order::phoneValidation(const string& phone) {
+    // check the length of the string
+    if (phone.length() != 10 && phone.length() != 12) {
+        return false;
+    }
+    
+    int count = 0;
+
+    // loop through the string and check each character
+    for (int i = 0; i < phone.length(); i++) {
+        char ch = phone[i];
+        if (isdigit(ch)) {
+            count++;
+        }
+        else if (ch != '-' && ch != '.'&& !(isdigit(ch))) {
+            return false;
+        }
+        // check the positions of the hyphens and dots
+        if (i == 3 || i == 7) {
+            if (ch != '-' && ch != '.' && !(isdigit(ch))) {
+                return false;
+            }
+        }
+        // else if (phone.length() == 12 && i == 7) {
+        //     if (ch != '-' && ch != '.') {
+        //         return false;
+        //     }
+        // }
+    }
+    
+    // check the number of digits
+    if (count != 10) {
+        return false;
+    }
+    
+    return true;
+}
+
+
 
 // Derived class of Order: Pizza
 class PizzaOrder : public Order {
@@ -55,19 +127,6 @@ class PizzaOrder : public Order {
         // void getToppings();
         virtual void printOrder() override;
 };
-
-// Constructor for Order 
-Order::Order() {
-    cin.ignore();
-    cout << "Enter your name: ";
-    getline(cin, name);
-    cout << "Enter your phone number: ";
-    getline(cin, phone);
-    cout << "Nice to meet you, " << name << "!" << endl;
-    cout << "What drink would you like? Enter drink or \"none\": ";
-    getline(cin, drink);
-    total = 0;
-}
 
 // Constructor for PizzaOrder
 PizzaOrder::PizzaOrder() : Order() {
@@ -170,46 +229,146 @@ PizzaOrder::PizzaOrder() : Order() {
                         break;
         }
     }
-    // cout << endl;
-    // cout << "Perfect!" << endl;
-    // inputting toppings
-    // cin.ignore();
-    // string topping;
-    // while (getline(cin, topping)) {
-    //     if (topping == "\n") {
-    //         break;
-    //     }
-    //     toppings.push_back(topping);
-    // }
     cout << endl;
     cout << "You're all set! Thanks for your order!" << endl;
 }
-
-// Function to print out the list of toppings
-// void PizzaOrder::getToppings()  { 
-//     for (int i = 0; i < toppings.size(); i++) {
-//         if (toppings[0] == "") {
-//             cout << "none" << endl;
-//             return;
-//         } else if (i == toppings.size() - 1){
-//             cout << toppings[i] << "." << endl;
-//         } else {
-//             cout << toppings[i] << ", " << endl;
-//         }
-//     }
-// };
 
 // Function to print the pizza order, overrides the function in the parent class
 void PizzaOrder::printOrder() {
     cout << endl;
     cout << "Name: " << name << endl;
     cout << "Phone: " << phone << endl;
-    cout << "Drink: " << drink << endl;
+    cout << "Drink: ";
+    if (drink == 1) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
+    }
     cout << "Pizza Type: " << type << endl;
     cout << "Size: " << size << endl;
     cout << "Crust: " << crust << endl;
     cout << "Total: $" << total << endl;
     // cout << "Toppings: "; getToppings(); cout << endl; 
+}
+
+// Pasta Type Enumeration
+enum PastaType {Spaghetti = 10, Fettuccine = 12, Penne = 11, Linguine = 13, Alfredo = 15, Carbonara = 16};
+
+// Derived class of Order: Pasta
+class PastaOrder : public Order {
+    private:
+        PastaType type;
+        bool withChicken;
+        bool withShrimp;
+        bool withMushroom;
+    public:
+        PastaOrder();
+        PastaType getType() const { return type; }
+        bool hasChicken() const { return withChicken; }
+        bool hasShrimp() const { return withShrimp; }
+        bool hasMushroom() const { return withMushroom; }
+        virtual void printOrder() override;
+};
+
+// Constructor for PastaOrder
+PastaOrder::PastaOrder() : Order() {
+    // inputting pasta type
+    bool valid = 0;
+    while (!valid) {
+        cout << endl;
+        cout << "Choose pasta type:" << endl;
+        cout << "1. Spaghetti ($10)" << endl;
+        cout << "2. Fettuccine ($12)" << endl;
+        cout << "3. Penne ($11)" << endl;
+        cout << "4. Linguine ($13)" << endl;
+        cout << endl;
+        char pastaChoice;
+        cout << "Enter your choice: ";
+        cin >> pastaChoice;
+        switch (pastaChoice) {
+            case '1':   total += Spaghetti;
+                        type = Spaghetti;
+                        valid = 1;
+                        break;
+            case '2':   total += Fettuccine;
+                        type = Fettuccine;
+                        valid = 1;
+                        break;
+            case '3':   total += Penne;
+                        type = Penne;
+                        valid = 1;
+                        break;
+            case '4':   total += Linguine;
+                        type = Linguine;
+                        valid = 1;
+                        break;
+            default:    cout << "Invalid choice. Please try again. " << endl;
+                        break;
+        }
+    }
+    cout << endl;
+    cout << "Good choice, " << name << "!" << endl;
+    // inputting extras
+    withChicken = false;
+    withShrimp = false;
+    withMushroom = false;
+    valid = 0;
+    while (!valid) {
+        cout << endl;
+        cout << "Would you like extras in your pasta?" << endl;
+        cout << "1. Chicken (+$3)" << endl;
+        cout << "2. Shrimp (+$4)" << endl;
+        cout << "3. Mushroom (+$2)" << endl;
+        cout << "4. None" << endl;
+        cout << endl;
+        char extraChoice;
+        cout << "Enter your choice: ";
+        cin >> extraChoice;
+        switch (extraChoice) {
+            case '1':   total += 3.0;
+                        withChicken = true;
+                        valid = 1;
+                        break;
+            case '2':   total += 4.0;
+                        withShrimp = true;
+                        valid = 1;
+                        break;
+            case '3':   total += 2.0;
+                        withMushroom = true;
+                        valid = 1;
+                        break;
+            case '4':   valid = 1;
+                        break;
+            default:    cout << "Invalid choice. Please try again. " << endl;
+                        break;
+        }
+    }
+    cout << endl;
+}
+
+// Function to print the pizza order, overrides the function in the parent class
+void PastaOrder::printOrder() {
+    cout << endl;
+    cout << "Name: " << name << endl;
+    cout << "Phone: " << phone << endl;
+    cout << "Drink: ";
+    if (drink == 1) {
+        cout << "Yes" << endl;
+    } else {
+        cout << "No" << endl;
+    }
+    cout << "Pasta Type: " << type << endl;
+    cout << "Extras: ";
+    if (withChicken) {
+        cout << "Chicken" << endl;
+    } else if (withShrimp) {
+        cout << "Shrimp" << endl;
+    } else if (withMushroom) {
+        cout << "Mushrooms" << endl;
+    } else {
+        cout << "None" << endl;
+    }
+    cout << "Total: $" << total << endl;
 }
 
 #endif
