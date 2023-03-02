@@ -9,7 +9,7 @@
 
 2. "classOrder.h" contains class definitions for two types of orders: Pizza or Pasta, and an abstract parent class Order.
 
-3. "class Line.h" contains the implementation of the queue, which includes dequeue(), enqueue(), size(), front(), empty().
+3. "classLine.h" contains the implementation of the queue, which includes dequeue(), enqueue(), size(), front(), empty().
 
 4. "main.cpp" provides the menu options for the user.
 
