@@ -95,13 +95,7 @@ bool Order::phoneValidation(const string& phone) {
                 return false;
             }
         }
-        // else if (phone.length() == 12 && i == 7) {
-        //     if (ch != '-' && ch != '.') {
-        //         return false;
-        //     }
-        // }
     }
-    
     // check the number of digits
     if (count != 10) {
         return false;
@@ -109,8 +103,6 @@ bool Order::phoneValidation(const string& phone) {
     
     return true;
 }
-
-
 
 // Derived class of Order: Pizza
 class PizzaOrder : public Order {

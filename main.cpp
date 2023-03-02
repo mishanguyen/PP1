@@ -26,9 +26,9 @@ int main() {
         cout << "Today is a Pasta Day!" << endl;
     }
 
-    char role;
     for (;;) {
-        char done;
+        char role;
+        
         cout << endl;
         cout << "Select your role:" << endl;
         cout << endl;
@@ -40,6 +40,7 @@ int main() {
         cout << "Enter your choice: ";
         cin >> role;
         if (role == '1') {
+            char done;
             while (done != 'y') {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
@@ -78,6 +79,7 @@ int main() {
             }
         }
         if (role == '2') {
+            char done;
             while (done != 'y') {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
