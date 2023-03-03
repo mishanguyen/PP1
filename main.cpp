@@ -7,7 +7,7 @@ The user can choose to be a manager or customer:
 
 The main function includes menu options for each choice that the user might encounter
 
-NOTE: Line 20: User has to declare the restaurant to have either Pasta or Pizza by putting the type PastaOrder or PizzaOrder (defined in classOrder.h)"
+NOTE: Line 30: User has to declare the restaurant to have either Pasta or Pizza by putting the type PastaOrder or PizzaOrder (defined in classOrder.h)"
 By default, it's defined as PastaOrder */
 
 #include <iostream>
