@@ -1,8 +1,5 @@
-/* Queue implementation using Customers as nodes of the circularly linked list */
-/* Here we don't input the name */
-/* TODO: 
-- size(): to see how many people are in the line 
-*/
+/* Queue implementation using Customers as nodes of the circularly linked list with front and rear pointers */
+
 #ifndef CLASSLINE_H
 #define CLASSLINE_H
 #include <iostream>
@@ -18,25 +15,19 @@ class Line {
         Customer<E>* rear;
         int n;
     public:
+        // constructor
         Line() { 
             front = nullptr; 
             rear = nullptr; 
-            n = 0;
+            n = 0; // stores current size
         }
+        // destructor
         ~Line() {
             while (!empty()) {
                 dequeue();
             }
             delete front;
             delete rear;
-        }
-        Line& operator=(const Line& copy) {
-            if (this == &copy) {
-                return *this;
-            }
-            front = copy.front;
-            rear = copy.rear;
-            return *this;
         }
         bool empty() const { return (n == 0); }
         void enqueue();
@@ -47,6 +38,7 @@ class Line {
         int size();
 };   
 
+// enqueue function to add new customers at the rear
 template <typename E>
 void Line<E>::enqueue() {
     Customer<E>* newCustomer = new Customer<E>();
@@ -68,6 +60,7 @@ void Line<E>::enqueue() {
     n++;
 }
 
+// dequeue function to remove customers at the front
 template <typename E>
 void Line<E>::dequeue() {
     if (empty()) {
@@ -86,6 +79,8 @@ void Line<E>::dequeue() {
     }
 }
 
+// getFront function to print the order information of the front customer
+// calls printOrder function defined in classOrder.h
 template <typename E>
 void Line<E>::getFront() {
     if (front == nullptr) {
@@ -95,16 +90,19 @@ void Line<E>::getFront() {
     front->order->printOrder();
 }
 
+// gets the name of the front customer
 template <typename E>
 string Line<E>::getFrontName() {
     return front->order->getName();
 }
 
+// returns the number of people in the line
 template <typename E>
 int Line<E>::size() {
     return n;
 }
 
+// deletes all customers
 template <typename E>
 void Line<E>::clear() {
     if (empty()) {

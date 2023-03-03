@@ -1,18 +1,16 @@
-/* Class definitions for Pizza and Pasta, which are going to be used for templated queue. 
+/* Class definitions for abstract class Order, as well as subclasses PizzaOrder and PastaOrder, which are going to be used for the templated queue. 
 A customer can only order either pizza or pasta. */
-/* TODO: 
-- Input for crust and toppings
-- Print order name, phone, drink, total;
-- Subclass PastaOrder and its functions
-*/
 
 #ifndef CLASSORDER_H
 #define CLASSORDER_H
 #include <iostream>
 #include <string>
-enum PizzaType { Vegetarian = 11, Margherita = 12, Pepperoni = 13, Cheese = 14, BBQChicken = 16 };
-enum CrustType { thin = 0, thick = 1, stuffed = 2};
+
 using namespace std;
+
+// Enumarations for pizza type and crust
+enum PizzaType { Vegetarian = 11, Margherita = 12, Pepperoni = 13, Cheese = 14, BBQChicken = 16 };
+enum CrustType { thin = 0, thick = 1, stuffed = 2 };
 
 // Parent abstract class Order
 class Order {
@@ -68,6 +66,8 @@ Order::Order() {
     total = 0;
 }
 
+// validates the user entered phone number
+// valid formats: XXXXXXXXXX, XXX-XXX-XXXX, XXX.XXX.XXXX
 bool Order::phoneValidation(const string& phone) {
     // check the length of the string
     if (phone.length() != 10 && phone.length() != 12) {
@@ -96,11 +96,11 @@ bool Order::phoneValidation(const string& phone) {
     if (count != 10) {
         return 0;
     }
-    
+
     return 1;
 }
 
-// Derived class of Order: Pizza
+// Derived class of Order: PizzaOrder
 class PizzaOrder : public Order {
     private:
         PizzaType type;
@@ -130,6 +130,7 @@ PizzaOrder::PizzaOrder() : Order() {
         char pizzaChoice;
         cout << "Enter your choice: ";
         cin >> pizzaChoice;
+        // swtich statement to calculate total and assign type
         switch (pizzaChoice) {
             case '1':   total += Margherita;
                         type = Margherita;
@@ -281,6 +282,7 @@ PastaOrder::PastaOrder() : Order() {
         char pastaChoice;
         cout << "Enter your choice: ";
         cin >> pastaChoice;
+        // swtich statement to calculate total and assign type
         switch (pastaChoice) {
             case '1':   total += Spaghetti;
                         type = Spaghetti;
@@ -342,7 +344,7 @@ PastaOrder::PastaOrder() : Order() {
     cout << endl;
 }
 
-// Function to print the pizza order, overrides the function in the parent class
+// Function to print the pasta order, overrides the function in the parent class
 void PastaOrder::printOrder() {
     cout << endl;
     cout << "Name: " << name << endl;

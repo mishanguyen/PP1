@@ -1,5 +1,12 @@
-/* This .cpp file is the driver of tghe program. 
-It includes menu options for each choice that the user might encounter
+/* This .cpp file is the driver of the program. 
+This program implements a line in the italian restaurant that serves either pizza or pasta (depending on user declaration)
+
+The user can choose to be a manager or customer: 
+- Manager can give away orders, check the size of the line, and view order info of the front customer
+- Customer can create a new order and check the size of the line
+
+The main function includes menu options for each choice that the user might encounter
+
 NOTE: Line 20: User has to declare the restaurant to have either Pasta or Pizza by putting the type PastaOrder or PizzaOrder (defined in classOrder.h)"
 By default, it's defined as PastaOrder */
 
@@ -41,7 +48,7 @@ int main() {
         cout << "Enter your choice (1, 2, or 3): ";
         cin >> role;
 
-        if (role == "1") {
+        if (role == "1") { // manager role
             string done = "n";
             while (done != "y") {
                 cout << endl;
@@ -64,7 +71,7 @@ int main() {
                 }
 
                 switch (managerChoice) {
-                    case '1':  
+                    case '1':  // handles checking the size of the line
                         cout << endl;
                         cout << "Number of people in line: " << newLine.size() << endl;
                         cout << endl;
@@ -76,7 +83,7 @@ int main() {
                             cin >> done;
                         }
                         break;
-                    case '2':
+                    case '2': // handles viewing front customer order info
                         cout << endl;
                         cout << "Here is the order of the current customer: " << endl;
                         newLine.getFront();
@@ -89,7 +96,7 @@ int main() {
                             cin >> done;
                         }
                         break;
-                    case '3':
+                    case '3': // handles giving away the order
                         cout << endl;
                         if (newLine.empty()) {
                             cout << "There are no customers in the line!" << endl;
@@ -116,7 +123,7 @@ int main() {
                         break;
                 }
             }
-        } else if (role == "2") {
+        } else if (role == "2") { // customer role
             string done = "n";
             while (done != "y") {
                 cout << endl;
@@ -137,7 +144,7 @@ int main() {
                 }
 
                 switch (customerChoice) {
-                    case '1': 
+                    case '1': // handles placing the order
                         cout << endl;
                         cout << "Let's get your order..." << endl;
                         cout << endl;
@@ -151,7 +158,7 @@ int main() {
                             cin >> done;
                         }
                         break;
-                    case '2':
+                    case '2': // handles checking the size of the line
                         cout << endl;
                         cout << "Number of people in line: " << newLine.size() << endl;
                         cout << endl;
@@ -165,7 +172,7 @@ int main() {
                         break;
                 }
             }
-        } else if (role == "3") {
+        } else if (role == "3") { // quit
             newLine.clear();
             cout << "See you soon!" << endl;
             return EXIT_SUCCESS;

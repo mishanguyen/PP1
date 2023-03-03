@@ -1,3 +1,4 @@
+// Definiton of the class Customer which serves as a node for the queue
 #ifndef CLASSCUSTOMER_H
 #define CLASSCUSTOMER_H
 #include <iostream>
