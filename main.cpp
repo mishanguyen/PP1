@@ -12,6 +12,7 @@ By default, it's defined as PastaOrder */
 
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 #include <type_traits>
 #include "classLine.h"
 #include "classOrder.h"
