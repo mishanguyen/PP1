@@ -1,8 +1,10 @@
-/* Here we need to create a queue. This porgram manages the orders in the italian restaurant where you can only order pizza or pasta (not both).
-We enqueue() when a new customer comes in (basically, like when we place an order in starbucks). We get their info, order
-Then we dequeue() when we give out the order. We can print smt like "Thank you, see you next time!" */
+/* This .cpp file is the driver of tghe program. 
+It includes menu options for each choice that the user might encounter
+NOTE: Line 20: User has to declare the restaurant to have either Pasta or Pizza by putting the type PastaOrder or PizzaOrder (defined in classOrder.h)"
+By default, it's defined as PastaOrder */
 
 #include <iostream>
+#include <cstdlib>
 #include <type_traits>
 #include "classLine.h"
 #include "classOrder.h"
@@ -40,8 +42,8 @@ int main() {
         cin >> role;
 
         if (role == "1") {
-            char done = 'n';
-            while (done != 'y') {
+            string done = "n";
+            while (done != "y") {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
                 cout << "1. Check how many customers are in the line." << endl;
@@ -68,6 +70,11 @@ int main() {
                         cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
+                        while (done != "n" && done != "y") {
+                            cout << endl;
+                            cout << "Invalid input. Done (y/n)?: ";
+                            cin >> done;
+                        }
                         break;
                     case '2':
                         cout << endl;
@@ -76,20 +83,42 @@ int main() {
                         cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
+                        while (done != "n" && done != "y") {
+                            cout << endl;
+                            cout << "Invalid input. Done (y/n)?: ";
+                            cin >> done;
+                        }
                         break;
                     case '3':
                         cout << endl;
+                        if (newLine.empty()) {
+                            cout << "There are no customers in the line!" << endl;
+                            cout << endl;
+                            cout << "Done (y/n)?: ";
+                            cin >> done;
+                            while (done != "n" && done != "y") {
+                                cout << endl;
+                                cout << "Invalid input. Done (y/n)?: ";
+                                cin >> done;
+                            }
+                            break;
+                        }
                         cout << "Giving away the order for " << newLine.getFrontName() << "!";
                         newLine.dequeue();
                         cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
+                        while (done != "n" && done != "y") {
+                            cout << endl;
+                            cout << "Invalid input. Done (y/n)?: ";
+                            cin >> done;
+                        }
                         break;
                 }
             }
         } else if (role == "2") {
-            char done = 'n';
-            while (done != 'y') {
+            string done = "n";
+            while (done != "y") {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
                 cout << "1. Place an order" << endl;
@@ -116,6 +145,11 @@ int main() {
                         cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
+                        while (done != "n" && done != "y") {
+                            cout << endl;
+                            cout << "Invalid input. Done (y/n)?: ";
+                            cin >> done;
+                        }
                         break;
                     case '2':
                         cout << endl;
@@ -123,6 +157,11 @@ int main() {
                         cout << endl;
                         cout << "Done (y/n)?: ";
                         cin >> done;
+                        while (done != "n" && done != "y") {
+                            cout << endl;
+                            cout << "Invalid input. Done (y/n)?: ";
+                            cin >> done;
+                        }
                         break;
                 }
             }

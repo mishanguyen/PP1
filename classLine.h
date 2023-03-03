@@ -38,7 +38,7 @@ class Line {
             rear = copy.rear;
             return *this;
         }
-        bool empty() const { return (front == nullptr); }
+        bool empty() const { return (n == 0); }
         void enqueue();
         void dequeue();
         void getFront();

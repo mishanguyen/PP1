@@ -9,10 +9,8 @@ A customer can only order either pizza or pasta. */
 #ifndef CLASSORDER_H
 #define CLASSORDER_H
 #include <iostream>
-#include <cstdlib>
 #include <string>
-#include <vector>
-enum PizzaType { Margherita = 12, Pepperoni = 13, Cheese = 14, Vegetarian = 13, BBQChicken = 16 };
+enum PizzaType { Vegetarian = 11, Margherita = 12, Pepperoni = 13, Cheese = 14, BBQChicken = 16 };
 enum CrustType { thin = 0, thick = 1, stuffed = 2};
 using namespace std;
 
@@ -25,8 +23,6 @@ class Order {
         double total;
     public:
         Order(); // default constructor
-        // Order(string name, string phone, string drink, double total) // full constructor
-        //     : name(name), phone(phone), drink(drink), total(total) {}
         virtual void printOrder() = 0; // pure virtual function to print order details
         // accessor functions
         double getTotal() const { return total; }
@@ -75,7 +71,7 @@ Order::Order() {
 bool Order::phoneValidation(const string& phone) {
     // check the length of the string
     if (phone.length() != 10 && phone.length() != 12) {
-        return false;
+        return 0;
     }
     
     int count = 0;
@@ -87,21 +83,21 @@ bool Order::phoneValidation(const string& phone) {
             count++;
         }
         else if (ch != '-' && ch != '.'&& !(isdigit(ch))) {
-            return false;
+            return 0;
         }
         // check the positions of the hyphens and dots
         if (i == 3 || i == 7) {
             if (ch != '-' && ch != '.' && !(isdigit(ch))) {
-                return false;
+                return 0;
             }
         }
     }
     // check the number of digits
     if (count != 10) {
-        return false;
+        return 0;
     }
     
-    return true;
+    return 1;
 }
 
 // Derived class of Order: Pizza
@@ -110,13 +106,11 @@ class PizzaOrder : public Order {
         PizzaType type;
         int size;
         CrustType crust;
-        // vector<string> toppings;
     public:
         PizzaOrder();
         PizzaType getType() const { return type; }
         int getSize() const { return size; }
         CrustType getCrust() const { return crust; }
-        // void getToppings();
         virtual void printOrder() override;
 };
 
@@ -236,15 +230,25 @@ void PizzaOrder::printOrder() {
     } else {
         cout << "No" << endl;
     }
-    cout << "Pizza Type: " << type << endl;
+    cout << "Pizza Type: ";
+    if (type == 11) {
+        cout << "Vegetarian" << endl;
+    } else if (type == 12) {
+        cout << "Margherita" << endl;
+    } else if (type == 13) {
+        cout << "Pepperoni" << endl;
+    } else if (type == 14) {
+        cout << "Cheese" << endl;
+    } else if (type == 16) {
+        cout << "BBQ Chicken" << endl;
+    }
     cout << "Size: " << size << endl;
     cout << "Crust: " << crust << endl;
     cout << "Total: $" << total << endl;
-    // cout << "Toppings: "; getToppings(); cout << endl; 
 }
 
 // Pasta Type Enumeration
-enum PastaType {Spaghetti = 10, Fettuccine = 12, Penne = 11, Linguine = 13, Alfredo = 15, Carbonara = 16};
+enum PastaType {Spaghetti = 10, Fettuccine = 11, Penne = 12, Linguine = 13};
 
 // Derived class of Order: Pasta
 class PastaOrder : public Order {
@@ -270,8 +274,8 @@ PastaOrder::PastaOrder() : Order() {
         cout << endl;
         cout << "Choose pasta type:" << endl;
         cout << "1. Spaghetti ($10)" << endl;
-        cout << "2. Fettuccine ($12)" << endl;
-        cout << "3. Penne ($11)" << endl;
+        cout << "2. Fettuccine ($11)" << endl;
+        cout << "3. Penne ($12)" << endl;
         cout << "4. Linguine ($13)" << endl;
         cout << endl;
         char pastaChoice;
@@ -349,7 +353,16 @@ void PastaOrder::printOrder() {
     } else {
         cout << "No" << endl;
     }
-    cout << "Pasta Type: " << type << endl;
+    cout << "Pasta Type: ";
+    if (type == 10) {
+        cout << "Spaghetti" << endl;
+    } else if (type == 11) {
+        cout << "Fettuccine" << endl;
+    } else if (type == 12) {
+        cout << "Penne" << endl;
+    } else if (type == 13) {
+        cout << "Linguine" << endl;
+    }
     cout << "Extras: ";
     if (withChicken) {
         cout << "Chicken" << endl;
