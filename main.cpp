@@ -7,7 +7,7 @@ The user can choose to be a manager or customer:
 
 The main function includes menu options for each choice that the user might encounter
 
-NOTE: Line 30: User has to declare the restaurant to have either Pasta or Pizza by putting the type PastaOrder or PizzaOrder (defined in classOrder.h)"
+NOTE: Line 31: User has to declare the restaurant to have either Pasta or Pizza by putting the type PastaOrder or PizzaOrder (defined in classOrder.h)"
 By default, it's defined as PastaOrder */
 
 #include <iostream>
@@ -17,6 +17,7 @@ By default, it's defined as PastaOrder */
 #include "classLine.h"
 #include "classOrder.h"
 
+char validateChoice();
 using namespace std;
 
 int main() {
@@ -27,7 +28,7 @@ int main() {
     cout << endl;
 
     // Declare type either PizzaOrder or PastaOrder
-    Line<PastaOrder> newLine;
+    Line<PizzaOrder> newLine;
 
     // Printing a message depending on the previoius type declaration
     if (is_same<decltype(newLine), Line<PizzaOrder> >::value) {
@@ -50,8 +51,8 @@ int main() {
         cin >> role;
 
         if (role == "1") { // manager role
-            string done = "n";
-            while (done != "y") {
+            char done = 'n';
+            while (tolower(done) != 'y') {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
                 cout << "1. Check how many customers are in the line." << endl;
@@ -65,7 +66,7 @@ int main() {
                 // if user did not input a character (i.e. string)
                 if (cin.fail() || cin.peek() != '\n') {  // check if input is not a single character
                     cout << endl;
-                    cout << "Invalid choice. Please try again: " << endl;
+                    cout << "Invalid choice. Please try again. " << endl;
                     cin.clear();  // reset input stream state
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');  // clear input buffer
                     continue;
@@ -76,57 +77,37 @@ int main() {
                         cout << endl;
                         cout << "Number of people in line: " << newLine.size() << endl;
                         cout << endl;
-                        cout << "Done (y/n)?: ";
-                        cin >> done;
-                        while (done != "n" && done != "y") {
-                            cout << endl;
-                            cout << "Invalid input. Done (y/n)?: ";
-                            cin >> done;
-                        }
+                        done = validateChoice();
                         break;
                     case '2': // handles viewing front customer order info
                         cout << endl;
                         cout << "Here is the order of the current customer: " << endl;
                         newLine.getFront();
                         cout << endl;
-                        cout << "Done (y/n)?: ";
-                        cin >> done;
-                        while (done != "n" && done != "y") {
-                            cout << endl;
-                            cout << "Invalid input. Done (y/n)?: ";
-                            cin >> done;
-                        }
+                        done = validateChoice();
                         break;
                     case '3': // handles giving away the order
                         cout << endl;
                         if (newLine.empty()) {
                             cout << "There are no customers in the line!" << endl;
                             cout << endl;
-                            cout << "Done (y/n)?: ";
-                            cin >> done;
-                            while (done != "n" && done != "y") {
-                                cout << endl;
-                                cout << "Invalid input. Done (y/n)?: ";
-                                cin >> done;
-                            }
+                            done = validateChoice();
                             break;
                         }
                         cout << "Giving away the order for " << newLine.getFrontName() << "!";
                         newLine.dequeue();
                         cout << endl;
-                        cout << "Done (y/n)?: ";
-                        cin >> done;
-                        while (done != "n" && done != "y") {
-                            cout << endl;
-                            cout << "Invalid input. Done (y/n)?: ";
-                            cin >> done;
-                        }
+                        done = validateChoice();
+                        break;
+                    default:
+                        cout << endl;
+                        cout << "Invalid choice. Please try again.";
                         break;
                 }
             }
         } else if (role == "2") { // customer role
-            string done = "n";
-            while (done != "y") {
+            char done = 'n';
+            while (tolower(done) != 'y') {
                 cout << endl;
                 cout << "Choose one of the options: " << endl;
                 cout << "1. Place an order" << endl;
@@ -138,7 +119,7 @@ int main() {
 
                 // if user did not input a character (i.e. string)
                 if (cin.fail() || cin.peek() != '\n') {  // check if input is not a single character
-                    cout << "Invalid choice. Please try again: " << endl;
+                    cout << "Invalid choice. Please try again. " << endl;
                     cin.clear();  // reset input stream state
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');  // clear input buffer
                     continue;
@@ -151,25 +132,17 @@ int main() {
                         cout << endl;
                         newLine.enqueue();
                         cout << endl;
-                        cout << "Done (y/n)?: ";
-                        cin >> done;
-                        while (done != "n" && done != "y") {
-                            cout << endl;
-                            cout << "Invalid input. Done (y/n)?: ";
-                            cin >> done;
-                        }
+                        done = validateChoice();
                         break;
                     case '2': // handles checking the size of the line
                         cout << endl;
                         cout << "Number of people in line: " << newLine.size() << endl;
                         cout << endl;
-                        cout << "Done (y/n)?: ";
-                        cin >> done;
-                        while (done != "n" && done != "y") {
-                            cout << endl;
-                            cout << "Invalid input. Done (y/n)?: ";
-                            cin >> done;
-                        }
+                        done = validateChoice();
+                        break; 
+                    default:
+                        cout << endl;
+                        cout << "Invalid choice. Please try again.";
                         break;
                 }
             }
@@ -183,4 +156,26 @@ int main() {
             cout << endl;
         }
     }
+}
+
+char validateChoice() {
+    char choice;
+    bool validInput = false;
+
+    while (!validInput) {
+        cout << "Done (y/n)?: ";
+        cin >> choice;
+
+        // Check if input is a character
+        if (cin.fail() || cin.get() != '\n' || (tolower(choice) != 'y' && tolower(choice) != 'n')) {
+            cout << "Invalid input. Please try again." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            validInput = true;
+        }
+    }
+
+    return choice;
 }

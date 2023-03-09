@@ -4,6 +4,7 @@
 #define CLASSLINE_H
 #include <iostream>
 #include <cstdlib>
+#include <cctype>
 #include "classCustomer.h"
 
 using namespace std;
@@ -36,6 +37,9 @@ class Line {
         string getFrontName();
         void clear();
         int size();
+        void modify(Customer<E>* newCustomer);
+        bool phoneValidation(const string& phone);
+        char validateChoiceType();
 };   
 
 // enqueue function to add new customers at the rear
@@ -50,6 +54,17 @@ void Line<E>::enqueue() {
         cout << "Here is your order:" << endl;
         newCustomer->order->printOrder();
         n++;
+        cout << endl;
+        char correct = 'n';
+        while (tolower(correct) != 'y') {
+            correct = validateChoiceType();
+            while (tolower(correct) != 'n' && tolower(correct) != 'y') {
+                cout << endl;
+                correct = validateChoiceType();
+                cout << endl;
+            }
+            if (tolower(correct) == 'n') modify(newCustomer);
+        }
         return;
     }
     rear->next = newCustomer;
@@ -58,6 +73,20 @@ void Line<E>::enqueue() {
     cout << "Here is your order:" << endl;
     newCustomer->order->printOrder();
     n++;
+    cout << endl;
+    char correct = validateChoiceType();
+    while (tolower(correct) != 'y') {
+        correct = validateChoiceType();
+        while (tolower(correct) != 'n' && tolower(correct) != 'y') {
+            cout << endl;
+            cout << "Invalid input. Is the order correct (y/n)?: ";
+            correct = validateChoiceType();
+            cout << endl;
+        }
+        if (tolower(correct) == 'n') 
+            modify(newCustomer);
+    }
+    
 }
 
 // dequeue function to remove customers at the front
@@ -117,5 +146,109 @@ void Line<E>::clear() {
         front = nullptr;
         rear = nullptr;
     }
+}
+
+// modifies information about the order
+template <typename E>
+void Line<E>::modify(Customer<E>* newCustomer) {
+    cout << endl;
+    cout << "What would you like to change?" << endl;
+    cout << "1. Name" << endl;
+    cout << "2. Phone number" << endl;
+    cout << "3. Order details" << endl;
+    cout << "4. Cancel" << endl;
+    cout << endl;
+    char choice = validateChoiceType();
+    if (choice == '1') {
+        cout << endl;
+        cin.ignore();
+        string newName;
+        cout << "Enter your new name: ";
+        getline(cin, newName);
+        newCustomer->order->setName(newName);
+        cout << endl;
+        cout << "Name changed succesfully!" << endl;
+        newCustomer->order->printOrder();
+        cout << endl;
+    } else if (choice == '2') {
+        cout << endl;
+        cin.ignore();
+        string newPhone;
+        cout << "Enter your new phone number: ";
+        getline(cin, newPhone);
+        while (!phoneValidation(newPhone)) {
+            cout << "Invalid format. Please re-enter your phone: ";
+            getline(cin, newPhone);
+        }
+        newCustomer->order->setPhone(newPhone);
+        cout << endl;
+        cout << "Phone number changed succesfully!" << endl;
+        newCustomer->order->printOrder();
+        cout << endl;
+    } else if (choice == '3') {
+        cout << endl;
+        newCustomer->order->changeOrder();
+        cout << endl;
+    } else {
+        cout << endl;
+        newCustomer->order->changeOrder();
+        cout << endl;
+    }
+}
+
+template <typename E>
+bool Line<E>::phoneValidation(const string& phone) {
+    // check the length of the string
+    if (phone.length() != 10 && phone.length() != 12) {
+        return 0;
+    }
+    
+    int count = 0;
+
+    // loop through the string and check each character
+    for (int i = 0; i < phone.length(); i++) {
+        char ch = phone[i];
+        if (isdigit(ch)) {
+            count++;
+        }
+        else if (ch != '-' && ch != '.'&& !(isdigit(ch))) {
+            return 0;
+        }
+        // check the positions of the hyphens and dots
+        if (i == 3 || i == 7) {
+            if (ch != '-' && ch != '.' && !(isdigit(ch))) {
+                return 0;
+            }
+        }
+    }
+    // check the number of digits
+    if (count != 10) {
+        return 0;
+    }
+
+    return 1;
+}
+
+template <typename E>
+char Line<E>::validateChoiceType() {
+    char choice;
+    bool validInput = false;
+
+    while (!validInput) {
+        cout << "Is the order correct (y/n)?: ";
+        cin >> choice;
+
+        // Check if input is a character
+        if (cin.fail() || cin.get() != '\n') {
+            cout << "Invalid input! Please try again." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            validInput = true;
+        }
+    }
+
+    return choice;
 }
 #endif
