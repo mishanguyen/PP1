@@ -63,15 +63,18 @@ class PastaOrder : public Order {
         bool withMushroom;
     public:
         PastaOrder();
+        // accessor functions
         PastaType getType() const { return type; }
         bool hasChicken() const { return withChicken; }
         bool hasShrimp() const { return withShrimp; }
         bool hasMushroom() const { return withMushroom; }
         virtual void printOrder() override;
+        // modifier function
         void setPastaType(PastaType newType);
         void setChicken(bool newChicken) { withChicken = newChicken; }
         void setMushroom(bool newMushroom) { withMushroom = newMushroom; }
         void setShrimp(bool newShrimp) { withShrimp = newShrimp; }
+        // change order function
         virtual void changeOrder() override;
 };
 

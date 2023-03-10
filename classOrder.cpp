@@ -1,3 +1,5 @@
+/* This .cpp file includes function definitions and constructors for the Order class as well as its subclasses
+*/ 
 #include "classOrder.h"
 #include <iostream>
 #include <string>
@@ -350,6 +352,9 @@ void PizzaOrder::changeOrder() {
         }
         cout << endl;
         cout << "Crust type changed successfully!" << endl;
+    }
+    else {
+        return;
     }
 }
 

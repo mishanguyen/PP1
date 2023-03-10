@@ -39,7 +39,8 @@ class Line {
         int size();
         void modify(Customer<E>* newCustomer);
         bool phoneValidation(const string& phone);
-        char validateChoiceType();
+        char validateCorrect();
+        char validateChoice();
 };   
 
 // enqueue function to add new customers at the rear
@@ -57,10 +58,10 @@ void Line<E>::enqueue() {
         cout << endl;
         char correct = 'n';
         while (tolower(correct) != 'y') {
-            correct = validateChoiceType();
+            correct = validateCorrect();
             while (tolower(correct) != 'n' && tolower(correct) != 'y') {
                 cout << endl;
-                correct = validateChoiceType();
+                correct = validateCorrect();
                 cout << endl;
             }
             if (tolower(correct) == 'n') modify(newCustomer);
@@ -74,17 +75,15 @@ void Line<E>::enqueue() {
     newCustomer->order->printOrder();
     n++;
     cout << endl;
-    char correct = validateChoiceType();
+    char correct = validateCorrect();
     while (tolower(correct) != 'y') {
-        correct = validateChoiceType();
+        correct = validateCorrect();
         while (tolower(correct) != 'n' && tolower(correct) != 'y') {
             cout << endl;
-            cout << "Invalid input. Is the order correct (y/n)?: ";
-            correct = validateChoiceType();
+            correct = validateCorrect();
             cout << endl;
         }
-        if (tolower(correct) == 'n') 
-            modify(newCustomer);
+        modify(newCustomer);
     }
     
 }
@@ -158,10 +157,9 @@ void Line<E>::modify(Customer<E>* newCustomer) {
     cout << "3. Order details" << endl;
     cout << "4. Cancel" << endl;
     cout << endl;
-    char choice = validateChoiceType();
+    char choice = validateChoice();
     if (choice == '1') {
         cout << endl;
-        cin.ignore();
         string newName;
         cout << "Enter your new name: ";
         getline(cin, newName);
@@ -172,7 +170,6 @@ void Line<E>::modify(Customer<E>* newCustomer) {
         cout << endl;
     } else if (choice == '2') {
         cout << endl;
-        cin.ignore();
         string newPhone;
         cout << "Enter your new phone number: ";
         getline(cin, newPhone);
@@ -190,12 +187,12 @@ void Line<E>::modify(Customer<E>* newCustomer) {
         newCustomer->order->changeOrder();
         cout << endl;
     } else {
-        cout << endl;
-        newCustomer->order->changeOrder();
+        newCustomer->order->printOrder();
         cout << endl;
     }
 }
 
+// validates phone number input
 template <typename E>
 bool Line<E>::phoneValidation(const string& phone) {
     // check the length of the string
@@ -229,13 +226,38 @@ bool Line<E>::phoneValidation(const string& phone) {
     return 1;
 }
 
+// validates whether the y/n is correctly inputted
 template <typename E>
-char Line<E>::validateChoiceType() {
+char Line<E>::validateCorrect() {
     char choice;
     bool validInput = false;
 
     while (!validInput) {
         cout << "Is the order correct (y/n)?: ";
+        cin >> choice;
+
+        // Check if input is a character
+        if (cin.fail() || cin.get() != '\n') {
+            cout << "Invalid input! Please try again." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            validInput = true;
+        }
+    }
+
+    return choice;
+}
+
+// validates the choice type (should be char)
+template <typename E>
+char Line<E>::validateChoice() {
+    char choice;
+    bool validInput = false;
+
+    while (!validInput) {
+        cout << "Enter your choice: ";
         cin >> choice;
 
         // Check if input is a character

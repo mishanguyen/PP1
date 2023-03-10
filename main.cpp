@@ -158,6 +158,7 @@ int main() {
     }
 }
 
+// validates done y/n input
 char validateChoice() {
     char choice;
     bool validInput = false;
